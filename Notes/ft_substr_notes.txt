@@ -1,0 +1,21 @@
+Start the substring from the index start, and move till the end:
+1. What if start > len - Return NULL
+2. What if the string is NULL - Return NULL
+3. Free the memory if required
+4. Malloc protection done
+5. What if len is more than the letters we have to copy, should we recalculate the length to malloc? - I have done this
+6. the variable length calculates the length to malloc. if it is shorter than len, then I reinitialize len's value
+7. If in case the user tries to create a substring, where the index passed exceeds the original string length, then I return NULL
+
+IMPORTANT:
+1. Remove string.h
+2. Replace strlen with ft_strlen
+
+Test cases:
+
+int main(void)
+{
+	char *test;
+	test = ft_substr("Bonjour comment ca va?", 20, 8);
+	printf("%d\n", strlen(test));
+}
