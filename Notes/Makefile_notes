@@ -1,0 +1,83 @@
+1. When we type cc -Wall -Werror -Wextra filename.c, we are doing the following:
+    a. We are using the gcc compiler to create our output filename. This is what we execute
+    b. We are adding the flags -Wall -Werror and -Wextra
+2. For larger projects, which will require a lot of files to be compiled and executed, we cannot run the cc command over and over again. We may make mistakes and the process is extremely time consuming.
+3. This problem is solved by the Makefile
+4. We are essentially writing down instructions inside the Makefile so that when we eventually run the "make" command like in CS50, it goes through the instructions in that file and gives you the output file you need.
+5. Note that make isn't the only build tool, there are other tools like rake, ant and maven.
+
+Basics:
+1. You need a text file called Makefile, that describes how your program should be built.
+2. Make is really about dependencies and rules.
+3. Example:
+    a. hello: hello.c
+        gcc -o hello hello.c
+4. In the above example, when we run make hello, it realizes the dependency is the file hello.c, and then it runs the command below it, which basically says output the file hello from hello.c
+5. Using the clean command allows us to remove all the output files we generated, i.e, in the above example, after we get hello, we can remove it by running make clean (Refer below)
+6. clean: hello
+    rm -f hello
+
+
+7. The object files (.o files) are created during the compilation/assembling stage. They are just one file converted into assembly/machine language
+8. The executable files (.exe files) are the final files that can actually be executed. They are created at the linking step of compilation.
+9. .a is an archive of code: compiled but not linked. You would link statically with it during your program's final link step.
+10. So a .a file would contain your .o files, and would copy paste only those .o files that you'd need.
+11. So the libft project requires us to submit a .a file called libft.a, which would contain all the .o files that we just created.
+
+12. When we compile manually, we need to specify which libraries to include to the compiler in the command line. Simply mentioning the header file is not enough because the header file only contains the prototypes.
+13. When we create a C file and try to compile it, the following steps happen:
+    a. preprocessor - This stage is where all the #include and #define lines happen, and the comments and stripped out of the program. Your program becomes huge because the header files you included are now replaced with their actual function definitions, which are copy pasted at the top of your program. The output of this stage is a huge .C file.
+    b. compiler - This translates the file into assembly language. The output of this stage is a huge .s file
+    c. assmebler (aka assembling) - This stage is where the assembly language is translated into an object file. This object file is not an executable file yet, it needs to be linked first in order to use the code within it. The output of this stage is a .o file.
+    d. linker - This stage links together all the object files you need, to give you an executable file to use at the end.
+
+14. By using the following flags, we can execute one of the steps mentioned above, and get the output of that particular stage only:
+    a. -E = Gives you the output after the preprocessor stage
+    b. -S = Gives you the output after the compiler stage (the .s file)
+    c. -c = Gives you the object file
+
+15. The advantage of using this object files method is that suppose you have a project that requires you to have 10 C programs included. If you copy and paste all these 10 programs into 1 file and then compile it, it will take a lot of time to compile, but ultimately, it will work.
+16. However, suppose you have to make some changes to 2 of these programs. Now after refactoring the code, you have to do the recompiling process again, which ends up taking a lot of time once again.
+17. If we edited these 2 programs separately, and generated their new object files, and then linked those to our main program, it would save us a lot of time.
+18. This is because we are only recompiling those lines of code that we changed, and not the entire code. 
+19. Hence we use this system of objects files.
+
+20. In the example programs created, we create the object file for test.c which contains the code for print_hello(), then we create the object files for test2.c and test3.c
+21. The hello1 executable is created by linking test.o and test2.o, and the command used is gcc test.o test2.o -o hello1
+22. The hello1 executable is created by linking test.o and test2.o, and the command used is gcc test.o test3.o -o hello2
+
+23. The image here displays how a dependency tree would look like => ![alt text](image-1.png)
+
+24. In the example programs, if you notice, we write the prototype for the function print_hello in both test2.c and test3.c. The better thing to do is to create a header file called printhello.h, and put the prototype in there. That way, we just need to import the header file. (But how does the program know how to find the definition of the prototype in our directory? Answer - Just include the header file in the file where you defined your function. The compiler will automatically find the answer there.)
+25. There is no difference between a .h file and a .c file, only that the extension is different and that in a .h file, we do not write any C code, only function definitions, global variables, macros etc.
+26. ![alt text](image.png)
+27. The reason the errors pop up in the image above is because when we include the header file math.h, only the prototypes are added in the program file. So we could successfully convert it to an object file. 
+28. However, when we try to link it to create an executable file at the end, it fails, because the function definitions are nowhere to be found in your directory. (These functions are actually downloaded on your hard drive and saved when you download the C compiler.)
+29. That is why we write the -lm command, this links the math.o file with all its precompiled function definitions to your program file.
+
+30. The first line of the Makefile should be:
+	# -*- MakeFile -*-
+31. This lets the editor know to format your file as a makefile. There are formatting rules to a makefile 
+32. A Makefile is broken into a bunch of chunks, each known as a recipe.
+33. Each recipe has the format:
+target: dependencies
+	action
+34. Our objective with the makefile is to automate the process of making test.c, test2.c and test3.c an object file, and then linking them together as required.
+35. The makefile's default route is to only build the first recipe it sees. 
+36. To counteract this, we can either write the command make executablefile2, or we have to write the all recipe.
+37. The all recipe can help you run every command you want at once
+38. After adding the all recipe, we can type just make or even make all
+39. The clean recipe has the following syntax:
+clean:
+	action
+40. This means it has no dependencies.
+41. The clean command can allow us to remove the object files and the executable (i.e, the final .out file) files.
+
+
+
+
+
+
+Resources used:
+1. https://www.youtube.com/watch?v=a8mPKBxQ9No - Make in 60 seconds
+2. https://www.youtube.com/watch?v=GExnnTaBELk - Lecture on Makefiles
