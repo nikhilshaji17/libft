@@ -1,0 +1,28 @@
+1. These are normal pointers, that have the ability to point to functions.
+2. Example:
+	int func(int a, int b)
+	{
+		return (a + b);
+	}
+3. Think of a function as a set of instructions.
+4. These instructions are stored in the memory, i.e, a function is stored in the memory just like variables, but they are stored instruction by instruction.
+5. When we use a function pointer, we are essentially given the address of the first instruction. The instructions are stored back to back.
+6. int *ptr[10] means give me an array which contains 10 int pointers in it.
+7. int (*ptr)[10] means give me an int array which stores 10 ints, and give me a variable ptr which points to the 0th element
+8. To declare and use a function pointer, the syntax is as follows:
+9. int main(void)
+	{
+		int (*ptr)(int,int);
+		ptr = &func;
+		int result;
+		result = *ptr(10, 20);
+		OR
+		ptr = func;
+		result = ptr(10, 20);
+	}
+
+10. In C, when assigning a function to a function pointer, the & operator is optional because the function name itself (without parentheses) already represents the address of the function. 
+11. Therefore:
+	f = change_letters; and
+	f = &change_letters;
+	are equivalent and both set f to point to the change_letters function.
