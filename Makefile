@@ -1,31 +1,86 @@
 # -*- Makefile -*-
 
-NAME = libft.a
+# NAME = libft.a
 
-FLAGS = -Wall -Werror -Wextra
+# CFLAGS = -Wall -Werror -Wextra
 
-OBJECTS = ft_isalpha.o ft_isdigit.o ft_isalnum.o ft_isascii.o ft_isprint.o ft_strlen.o \
-		ft_strlcpy.o ft_strlcat.o ft_toupper.o ft_tolower.o ft_strchr.o ft_strrchr.o \
-		ft_memset.o ft_memcpy.o ft_memmove.o ft_bzero.o ft_strncmp.o ft_memchr.o \
-		ft_memcmp.o ft_strnstr.o ft_atoi.o 
+# SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c \
+# 		ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c \
+# 		ft_memset.c ft_memcpy.c ft_memmove.c ft_bzero.c ft_strncmp.c ft_memchr.c \
+# 		ft_atoi.c ft_strdup.c ft_strnstr.c ft_memcmp.c ft_calloc.c ft_itoa.c \
+# 		ft_split.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_striteri.c ft_strmapi.c \
+# 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
 
-FILENAMES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c \
-		ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c \
-		ft_memset.c ft_memcpy.c ft_memmove.c ft_bzero.c ft_strncmp.c ft_memchr.c \
-		ft_memcmp.c ft_strnstr.c ft_atoi.c 
+# BONUS = ft_lstnew.c
 
-all: $(NAME)
+# OBJS = ${SRCS:.c=.o}
 
-$(NAME):  $(OBJECTS)
-	cc $(OBJECTS) -o $(NAME) 
+# BONUS_OBJS = ${BONUS:.c=.o}
 
-$(OBJECTS): $(FILENAMES)
-	cc $(FLAGS) -c $(FILENAMES)
+# all: ${NAME}
+
+# bonus: ${OBJS} ${BONUS_OBJS}
+# 	ar rcs $@ ${NAME} ${OBJS} ${BONUS_OBJS}
+
+# ${NAME}:  ${OBJS}
+# 	ar rcs $@ $(OBJS)
+
+# # ${OBJS}: ${SRCS}
+# # 	cc ${CFLAGS} -c ${SRCS}
+
+# %.o	:	%.c
+# 	cc ${CFLAGS} -c $< -o $@
+
+# clean:
+# 	rm -f ${OBJS} ${BONUS_OBJS}
+
+# fclean: clean
+# 	rm -f ${NAME} ${BONUS_OBJS}
+
+# re: fclean all
+
+# .PHONY: all clean fclean re bonus
+
+SRCS		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
+				ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c \
+				ft_memset.c ft_split.c ft_strchr.c ft_strdup.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c \
+				ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c \
+				ft_tolower.c ft_toupper.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
+				ft_putnbr_fd.c
+		
+OBJS		= 	${SRCS:.c=.o}
+
+BONUS		=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
+				ft_lstiter.c ft_lstclear.c ft_lstdelone.c ft_lstmap.c
+
+
+BONUS_OBJS	=	${BONUS:.c=.o}
+
+CC		= cc
+
+RM		= rm -f
+
+CFLAGS	= -Wall -Werror -Wextra
+
+NAME	= libft.a
+
+all:	${NAME}
+
+%.o	:	%.c
+	${CC} ${CFLAGS} -c $< -o $@
+
+${NAME}: ${OBJS}
+	ar rcs ${NAME} ${OBJS}
 
 clean:
-	rm -f $(OBJECTS)
+	${RM} ${OBJS} ${BONUS_OBJS}
 
-fclean: clean
-	rm -f $(NAME)
+fclean:	clean
+	${RM} ${NAME}
 
-re: 
+re:	fclean ${NAME}
+
+bonus:	${OBJS} ${BONUS_OBJS}
+	ar rcs ${NAME} ${OBJS} ${BONUS_OBJS}
+
+.PHONY: all clean fclean re bonus

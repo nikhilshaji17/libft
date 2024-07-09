@@ -1,0 +1,16 @@
+// Find the index from the start where none of the set letters come
+// Find the index from the end where none of the set letters come
+// malloc the appropriate length by doing (end_index - start_index + 1) + 1 (The first +1 to include a letter, and the second for \0)
+// In this new string, start appending from start_index to end_index
+// If the set is NULL, return a copy of the original string
+// If the string is NULL, return NULL
+// Set a flag variable to decide if there is any letters to even trim
+// Cases to trim:
+	// 1. The letters are found in the beginning and the end
+	// 2. The letters are found only in the beginning (In this case, start_idx would have some value, end_idx would remain unchanged)
+	// 3. The letters are found only in the end (In this case, start_idx would be 0, end_idx would have some value)
+// Replace strlen with ft_strlen
+
+
+Todo:
+1. Norminette checks + different test cases.

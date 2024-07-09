@@ -1,0 +1,6 @@
+1. This function takes the input number, and checks whether or not it is negative.
+2. The number is stored in an unsigned int to avoid the INT_MAX and INT_MIN problem
+3. One of the number variables is used in order to find out the space to malloc
+4. The other number varaible is used to input each digit into the final string
+5. If the number is negative, the 0th location of the string is the - sign.
+6. If the number is positive, the 0th location of the string is the 1st digit
